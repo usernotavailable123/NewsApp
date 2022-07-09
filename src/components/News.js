@@ -46,7 +46,7 @@ export class News extends Component {
     async updateNews(){
         this.props.setProgress(10)
         console.log('page state',this.state);
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=48dc11e92a8c4b43b926611cebcce404&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.setState({loading:true})
         let data = await fetch(url);
         this.props.setProgress(30)
@@ -67,15 +67,14 @@ export class News extends Component {
         // a fake async api call like which sends
         // 20 more records in 1.5 secs
         await this.setState({page: this.state.page + 1});
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log('url',url)
         console.log(parsedData);
-        this.setState({
+        await this.setState({
             articles: this.state.articles.concat(parsedData.articles),
             totalResults: parsedData.totalResults,
-            loading:false,
         });
       };
   render() {
@@ -88,7 +87,7 @@ export class News extends Component {
             <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length!=this.state.totalResults}
+          hasMore={this.state.articles.length!==this.state.totalResults}
           loader={<Spinner/>}>
             <div className="container">
                 <div className="row">
@@ -102,10 +101,7 @@ export class News extends Component {
             </div> 
                 </div>
             </InfiniteScroll>
-            {/* <div className="container d-flex justify-content-between">
-            <button type="button" disabled={this.state.page<=1} className="btn btn-dark" onClick={this.handlePrevClick}> &larr;  Prev</button>
-            <button type="button" disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
-            </div> */}
+           
       </>
     )
   }
