@@ -67,7 +67,7 @@ export class News extends Component {
         // a fake async api call like which sends
         // 20 more records in 1.5 secs
         await this.setState({page: this.state.page + 1});
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=48dc11e92a8c4b43b926611cebcce404&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log('url',url)
